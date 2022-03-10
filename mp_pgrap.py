@@ -45,39 +45,47 @@ def loop_filter(prefix,suffix):
   for phone in range(prefix,suffix,1):
     data = phone_requester(phone)
     if parse_info(data) is not None:
-      print(f"phone: {phone} data: {parse_info(data)}")
+      print("phone: %s data: " % (phone,str(parse_info(data))}))
+      output_data = {
+          "name": parse_info(data)["name"],
+          "address": parse_info(data)["address"],
+          "phone": phone
+      }
+      with open('data/details.json', 'a', encoding='utf-8') as f:
+          json.dump(output_data, f, ensure_ascii=False, indent=4)
     else:
       print(f"phone: {phone} data: None")
-
 
 start = time.perf_counter()
 
 #multiprocessing_executions blocks.
 # process one to run filter loop from prefix : 100000000 to 200000000
-processus1 = mp.Process(target=loop_filter, args=[100000000,200000000])
+processus1 = mp.Process(target=loop_filter, args=[200000000,300000000])
+processus2 = mp.Process(target=loop_filter, args=[200000000,300050000])
+processus3 = mp.Process(target=loop_filter, args=[200050000,300100000])
+processus4 = mp.Process(target=loop_filter, args=[200100000,300150000])
+processus5 = mp.Process(target=loop_filter, args=[200150000,300200000])
+processus6 = mp.Process(target=loop_filter, args=[200200000,300250000])
+processus7 = mp.Process(target=loop_filter, args=[200250000,300300000])
+processus8 = mp.Process(target=loop_filter, args=[200300000,300350000])
+processus9 = mp.Process(target=loop_filter, args=[200350000,300400000])
+processus10 = mp.Process(target=loop_filter, args=[200400000,301000000])
+processus11 = mp.Process(target=loop_filter, args=[201000000,310000000])
+processus12 = mp.Process(target=loop_filter, args=[210000000,300000000])
 
-# process one to run filter loop from prefix : 300000000 to 400000000
-processus2 = mp.Process(target=loop_filter, args=[300000000,400000000])
-
-# process one to run filter loop from prefix : 500000000 to 600000000
-processus3 = mp.Process(target=loop_filter, args=[500000000,600000000])
-
-# process one to run filter loop from prefix : 700000000 to 800000000
-processus4 = mp.Process(target=loop_filter, args=[700000000,800000000])
-
-# process one to run filter loop from prefix : 800000000 to 900000000
-processus5 = mp.Process(target=loop_filter, args=[800000000,900000000])
-
-# process one to run filter loop from prefix : 900000000 to 999999999
-processus6 = mp.Process(target=loop_filter, args=[900000000,999999999])
-
-# start all process.
+# start process.
 processus1.start()
 processus2.start()
 processus3.start()
 processus4.start()
 processus5.start()
 processus6.start()
+processus7.start()
+processus8.start()
+processus9.start()
+processus10.start()
+processus11.start()
+processus12.start()
 
 # join process.
 processus1.join()
@@ -86,6 +94,13 @@ processus3.join()
 processus4.join()
 processus5.join()
 processus6.join()
+processus7.join()
+processus8.join()
+processus9.join()
+processus10.join()
+processus11.join()
+processus12.join()
 
 finish = time.perf_counter()
+
 print(f"time elapsed {round(finish-start,2)}")
